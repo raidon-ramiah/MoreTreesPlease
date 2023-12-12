@@ -51,20 +51,11 @@ const Header = () => {
 
   return (
     <div className="header-wrapper">
-      <h1>More Trees Please!</h1>
-      <p>
-        Look forth! An empty land, a barren land. Let us regrow the native
-        forest! May this land, green and lush, be a stage befitting birdsong,
-        and let this treasure be carried yonder.
-      </p>
-      <EventLogger />
-      Seeds:
-      {inv.map((item, i) => (
-        <span key={i}>
-          {' '}
-          {item?.name} ({item?.region})|{' '}
-        </span>
-      ))}
+      <div className="pageTitle">
+        {/* <button onClick={handleClickNav}> */}
+        <h1>More Trees Please!</h1>
+        {/* </button> */}
+      </div>
       <Bird />
       <Wrapper seeds={inv} />
     </div>

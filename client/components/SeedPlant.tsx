@@ -37,11 +37,15 @@ const SeedInventory: React.FC<SeedInventoryProps> = ({
   const seedsForHere = filterSeeds(seeds, zoneImage)
 
   return (
-    <div className="tester">
+    <div className="seedList">
       <h3>Seed Inventory</h3>
 
       {seedsForHere.map((seed, i) => (
-        <button key={i} onClick={() => onSelectSeed(seed)}>
+        <button
+          className="seed-button"
+          key={i}
+          onClick={() => onSelectSeed(seed)}
+        >
           {seed.name}
         </button>
       ))}
@@ -75,8 +79,8 @@ const SeedPlanting: React.FC<SeedPlantingProps> = ({
     image.src = imageSrc
 
     image.onload = () => {
-      canvas.width = image.width
-      canvas.height = image.height
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
 
       // Draw the image on the canvas
       ctx.drawImage(image, 0, 0, image.width, image.height)
@@ -108,8 +112,8 @@ const SeedPlanting: React.FC<SeedPlantingProps> = ({
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
+    const x = event.nativeEvent.offsetX
+    const y = event.nativeEvent.offsetY
 
     // Plant the selected seed at the coordinates
     if (selectedSeed) {
@@ -133,7 +137,7 @@ const SeedPlanting: React.FC<SeedPlantingProps> = ({
     }
   }
 
-  return <canvas ref={canvasRef} onClick={handlePlantSeed} />
+  return <canvas className="canvas" ref={canvasRef} onClick={handlePlantSeed} />
 }
 
 const SeedPlant = ({ seeds, imageSource }: Plant[]) => {

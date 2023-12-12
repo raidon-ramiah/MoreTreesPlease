@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllBirds, getAllPlantedSeeds } from '../api'
 import { Bird as BirdProps } from '../../models/birdsModel'
+import { EventLogger } from './EventLogger'
 
 const Bird: React.FC = () => {
   const [bird, setBird] = useState<BirdProps | null>(null)
@@ -32,13 +33,20 @@ const Bird: React.FC = () => {
         '>=',
         Math.floor(totalBirdsSpawned)
       )
-
-      if (Math.floor(matureCount / 5) > Math.floor(totalBirdsSpawned)) {
+      function getRandomNumber() {
+        return Math.floor(Math.random() * 6) + 5
+      }
+      const randomNumber = getRandomNumber()
+      if (
+        Math.floor(matureCount / randomNumber) > Math.floor(totalBirdsSpawned)
+      ) {
         console.log('spawn birds is being spawned')
 
         for (
           let i = 0;
-          i < Math.floor(matureCount / 5) - Math.floor(totalBirdsSpawned);
+          i <
+          Math.floor(matureCount / randomNumber) -
+            Math.floor(totalBirdsSpawned);
           i++
         ) {
           updateBirdArray()
@@ -73,19 +81,25 @@ const Bird: React.FC = () => {
 
   return (
     <>
-      <div>
-        <p>Current Birds Sighted:</p>
-
-        {birdArray.map((b, index) => (
-          <img
-            className="bird"
-            key={index}
-            src={`../images/${b.name.toLowerCase()}.png`}
-            alt="bird-img"
-          />
-        ))}
+      <div className="sub_header">
+        <EventLogger birdArray={{ birdArray }} />
+        <div>
+          {/* <p>Birds Spawned:</p> */}
+          <div className="bird-images">
+            {birdArray.map((b, index) => (
+              <img
+                className="bird"
+                key={index}
+                src={`../images/${b.name.toLowerCase()}.png`}
+                alt="bird-img"
+                title={b.name}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </>
   )
 }
+
 export default Bird
